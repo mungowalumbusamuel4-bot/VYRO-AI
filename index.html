@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101024">
+  <meta name="description" content="VYRO AI - transforme une idée en scénario vidéo.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <title>VYRO AI — Créateur vidéo</title>
+</head>
+<body>
+  <header class="top"><a class="brand" href="#">VYRO<span> AI</span></a><span class="tag">STUDIO CRÉATIF</span></header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">TON IDÉE. TON HISTOIRE.</p>
+      <h1>Crée ton prochain<br><span>univers vidéo.</span></h1>
+      <p class="intro">Décris ton idée et VYRO AI la transforme en un scénario structuré en quatre scènes.</p>
+    </section>
+    <section class="panel">
+      <label for="idea">Décris ta vidéo</label>
+      <textarea id="idea" rows="4" placeholder="Exemple : un jeune explorateur découvre une cité cachée dans la jungle..."></textarea>
+      <div class="controls">
+        <div><label for="mood">Ambiance</label><select id="mood"><option value="cinematic">Cinématique</option><option value="adventure">Aventure</option><option value="fantasy">Fantastique</option><option value="inspiring">Inspirante</option><option value="documentary">Documentaire</option></select></div>
+        <button id="create">Créer mon scénario <span>↗</span></button>
+      </div>
+      <p id="notice" class="notice" aria-live="polite">Version démo : le scénario est généré localement sur ton appareil.</p>
+    </section>
+    <section id="output" class="output" hidden>
+      <div class="result-head"><div><p class="eyebrow">TON SCÉNARIO</p><h2 id="result-title">Histoire générée</h2></div><button id="copy" class="secondary">Copier le texte</button></div>
+      <div id="scenes" class="scenes"></div>
+    </section>
+    <section class="roadmap"><p class="eyebrow">EN CONSTRUCTION</p><h2>La suite de VYRO</h2><p>Cette première version crée des scénarios. La génération de vraies vidéos, d'images et de voix sera ajoutée dans les prochaines étapes.</p></section>
+  </main>
+  <footer>VYRO AI · Prototype en développement</footer>
+  <script src="engine.js"></script><script src="app.js"></script>
+</body>
+</html>
