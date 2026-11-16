@@ -1,39 +1,40 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#101024">
-  <meta name="description" content="VYRO AI - transforme une idée en scénario vidéo.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <title>VYRO AI — Créateur vidéo</title>
-</head>
-<body>
-  <header class="top"><a class="brand" href="#">VYRO<span> AI</span></a><span class="tag">STUDIO CRÉATIF</span></header>
-  <main>
-    <section class="hero">
-      <p class="eyebrow">TON IDÉE. TON HISTOIRE.</p>
-      <h1>Crée ton prochain<br><span>univers vidéo.</span></h1>
-      <p class="intro">Décris ton idée et VYRO AI la transforme en un scénario structuré en quatre scènes.</p>
-    </section>
-    <section class="panel">
-      <label for="idea">Décris ta vidéo</label>
-      <textarea id="idea" rows="4" placeholder="Exemple : un jeune explorateur découvre une cité cachée dans la jungle..."></textarea>
-      <div class="controls">
-        <div><label for="mood">Ambiance</label><select id="mood"><option value="cinematic">Cinématique</option><option value="adventure">Aventure</option><option value="fantasy">Fantastique</option><option value="inspiring">Inspirante</option><option value="documentary">Documentaire</option></select></div>
-        <button id="create">Créer mon scénario <span>↗</span></button>
-      </div>
-      <p id="notice" class="notice" aria-live="polite">Version démo : le scénario est généré localement sur ton appareil.</p>
-    </section>
-    <section id="output" class="output" hidden>
-      <div class="result-head"><div><p class="eyebrow">TON SCÉNARIO</p><h2 id="result-title">Histoire générée</h2></div><button id="copy" class="secondary">Copier le texte</button></div>
-      <div id="scenes" class="scenes"></div>
-    </section>
-    <section class="roadmap"><p class="eyebrow">EN CONSTRUCTION</p><h2>La suite de VYRO</h2><p>Cette première version crée des scénarios. La génération de vraies vidéos, d'images et de voix sera ajoutée dans les prochaines étapes.</p></section>
-  </main>
-  <footer>VYRO AI · Prototype en développement</footer>
-  <script src="engine.js"></script><script src="app.js"></script>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100d25">
+<meta name="description" content="VYRO AI transforme une idée en storyboard et consignes visuelles.">
+<title>VYRO AI — Studio créatif</title>
+<style>
+:root{color-scheme:dark;--bg:#100d25;--panel:#1c1738;--line:#39305f;--text:#f5f2ff;--muted:#b9b1d4;--cyan:#65e6ef;--violet:#a78bfa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#29204c,var(--bg) 55%);font:16px system-ui,sans-serif;color:var(--text);min-height:100vh}
+main{width:min(920px,92%);margin:auto;padding:32px 0 60px}.brand{font-size:clamp(2rem,8vw,3.5rem);font-weight:900;letter-spacing:.08em;background:linear-gradient(90deg,var(--cyan),var(--violet));color:transparent;background-clip:text}
+.sub{color:var(--muted);margin-top:-8px}.panel,.scene{background:#1c1738dd;border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:20px}
+label{display:block;font-weight:700;margin:12px 0 8px}textarea,select{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;background:#100d25;color:var(--text);font:inherit}
+textarea{min-height:110px;resize:vertical}button{border:0;border-radius:12px;padding:13px 18px;font:700 15px system-ui;cursor:pointer;background:linear-gradient(90deg,var(--cyan),var(--violet));color:#17112d;margin:12px 8px 0 0}
+button.secondary{background:#30284e;color:var(--text);border:1px solid var(--line)}button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.scene h3{color:var(--cyan);margin:0 0 12px}.scene p{color:var(--muted);line-height:1.5}.scene strong{color:var(--text)}.hidden{display:none}.note{font-size:.9rem;color:var(--muted);line-height:1.5}
+footer{color:var(--muted);font-size:.85rem;margin-top:30px}
+</style></head><body><main>
+<div class="brand">VYRO AI</div><p class="sub">Ton studio de création d'histoires visuelles</p>
+<section class="panel"><h2>Imagine ton prochain film</h2>
+<label for="idea">Décris ton idée</label><textarea id="idea" placeholder="Ex. : Une exploratrice découvre une cité cachée dans les nuages..."></textarea>
+<label for="style">Style visuel</label><select id="style"><option>Cinématique réaliste</option><option>Animation 3D</option><option>Anime</option><option>Fantaisie illustrée</option><option>Science-fiction</option></select>
+<label for="mood">Ambiance</label><select id="mood"><option>Aventure</option><option>Mystérieuse</option><option>Épique</option><option>Joyeuse</option><option>Émouvante</option></select>
+<button id="create">Créer les 4 scènes</button>
+<p class="note">Prototype : cette version prépare des scénarios et des consignes visuelles. Elle ne génère pas encore de fichiers image ou vidéo.</p></section>
+<section id="results" class="hidden" aria-live="polite"><h2>Ton storyboard</h2><div id="scenes"></div><button id="copy">Copier toutes les consignes</button></section>
+<footer>VYRO AI · Prototype en développement · Aucun compte requis</footer></main>
+<script>
+const $=id=>document.getElementById(id);let prompts=[];
+function makeScenes(idea,style,mood){const beats=[["L'ouverture","Présenter le lieu et installer l'atmosphère."],["La découverte","Le personnage remarque un élément surprenant lié à l'idée."],["Le moment fort","Un événement important fait progresser l'histoire."],["La conclusion","Terminer sur une image mémorable qui donne envie de connaître la suite."]];
+const cameras=["Plan large d'établissement, caméra lente vers l'avant","Plan moyen, léger travelling latéral","Gros plan expressif puis mouvement fluide","Plan large final, caméra qui s'élève doucement"];
+return beats.map(([name,action],i)=>({name,action,visual:"Créer une image correspondant à cette scène : "+idea+". Composition claire, détails cohérents, lumière travaillée et sujet principal bien visible.",camera:cameras[i],style,mood}));}
+$("create").addEventListener("click",()=>{const idea=$("idea").value.trim();if(!idea){$("idea").focus();return}
+prompts=makeScenes(idea,$("style").value,$("mood").value);$("scenes").replaceChildren();
+prompts.forEach((s,i)=>{const card=document.createElement("article");card.className="scene";const h=document.createElement("h3");h.textContent="Scène "+(i+1)+" — "+s.name;card.append(h);
+[["Action",s.action],["Consigne visuelle",s.visual],["Caméra",s.camera],["Style",s.style],["Ambiance",s.mood]].forEach(([k,v])=>{const p=document.createElement("p"),b=document.createElement("strong");b.textContent=k+" : ";p.append(b,document.createTextNode(v));card.append(p)});
+const btn=document.createElement("button");btn.className="secondary";btn.textContent="Copier cette scène";btn.addEventListener("click",()=>copyText(Object.entries(s).map(([k,v])=>k+": "+v).join("\n"),btn));card.append(btn);$("scenes").append(card)});
+$("results").classList.remove("hidden");$("results").scrollIntoView({behavior:"smooth"});});
+function copyText(value,button){if(!navigator.clipboard){button.textContent="Copie non disponible";return}navigator.clipboard.writeText(value).then(()=>button.textContent="Copié !").catch(()=>button.textContent="Copie impossible");}
+$("copy").addEventListener("click",()=>copyText(prompts.map((s,i)=>"SCÈNE "+(i+1)+"\n"+Object.entries(s).map(([k,v])=>k+": "+v).join("\n")).join("\n\n"),$("copy")));
+</script></body></html>
