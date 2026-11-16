@@ -1,1 +1,19 @@
-{"name":"VYRO AI","short_name":"VYRO","start_url":"./","display":"standalone","background_color":"#0b0b18","theme_color":"#101024","description":"Créateur de scénarios vidéo","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{
+  "name": "VYRO AI",
+  "short_name": "VYRO AI",
+  "description": "Studio de création de scénarios visuels",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#100d25",
+  "theme_color": "#100d25",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
