@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100d25">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100d25"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
 <meta name="description" content="VYRO AI transforme une idée en storyboard et consignes visuelles.">
 <title>VYRO AI — Studio créatif</title>
 <style>
@@ -23,7 +23,7 @@ footer{color:var(--muted);font-size:.85rem;margin-top:30px}
 <button id="create">Créer les 4 scènes</button>
 <p class="note">Prototype : cette version prépare des scénarios et des consignes visuelles. Elle ne génère pas encore de fichiers image ou vidéo.</p></section>
 <section id="results" class="hidden" aria-live="polite"><h2>Ton storyboard</h2><div id="scenes"></div><button id="copy">Copier toutes les consignes</button></section>
-<footer>VYRO AI · Prototype en développement · Aucun compte requis</footer></main>
+<section class="panel"><h2>Installer VYRO AI</h2><p class="note">Sur Android, ouvre le menu du navigateur puis choisis Installer l’application ou Ajouter à l’écran d’accueil, si cette option est proposée.</p><button id="install" class="secondary" hidden>Installer VYRO AI</button></section><footer>VYRO AI · Prototype en développement · Aucun compte requis</footer></main>
 <script>
 const $=id=>document.getElementById(id);let prompts=[];
 function makeScenes(idea,style,mood){const beats=[["L'ouverture","Présenter le lieu et installer l'atmosphère."],["La découverte","Le personnage remarque un élément surprenant lié à l'idée."],["Le moment fort","Un événement important fait progresser l'histoire."],["La conclusion","Terminer sur une image mémorable qui donne envie de connaître la suite."]];
@@ -37,4 +37,4 @@ const btn=document.createElement("button");btn.className="secondary";btn.textCon
 $("results").classList.remove("hidden");$("results").scrollIntoView({behavior:"smooth"});});
 function copyText(value,button){if(!navigator.clipboard){button.textContent="Copie non disponible";return}navigator.clipboard.writeText(value).then(()=>button.textContent="Copié !").catch(()=>button.textContent="Copie impossible");}
 $("copy").addEventListener("click",()=>copyText(prompts.map((s,i)=>"SCÈNE "+(i+1)+"\n"+Object.entries(s).map(([k,v])=>k+": "+v).join("\n")).join("\n\n"),$("copy")));
-</script></body></html>
+let installPrompt;window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();installPrompt=event;$("install").hidden=false;});$("install").addEventListener("click",async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$("install").hidden=true;});if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script></body></html>
